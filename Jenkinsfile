@@ -3,8 +3,8 @@ pipeline {
 
 	environment {
 		dockerHome = tool 'myDocker'
-		mavenHome = tool 'myMaven'
-		PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
+		PATH = /opt/maven/apache-maven-3.9.5/bin:PATH
+		PATH = "$dockerHome/bin:$PATH"
 
 	}
 

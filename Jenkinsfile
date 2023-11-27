@@ -61,7 +61,7 @@ pipeline {
 		stage('Push Docker Image') {
 			steps {
 				script {
-					docker.withRegistry('', 'dockerhub') {
+					docker.withRegistry('https://hub.docker.com/repository/docker/yaswanth98/regapp', 'dockerhub') {
 						dockerImage.push();
 						dockerImage.push('latest');
 					}

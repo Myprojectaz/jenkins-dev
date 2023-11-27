@@ -61,7 +61,7 @@ pipeline {
 		stage('Push Docker Image') {
     		steps {
         		script {
-        			withCredentials([usernamePassword(credentialsId: 'Yaswanth98', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+        			withCredentials([usernamePassword(credentialsId: 'yaswanth98', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                 		def dockerHubCredentials = docker.registryCredentials('https://hub.docker.com')
 
                 // Login to Docker Hub using --password-stdin

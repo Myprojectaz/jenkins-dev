@@ -195,6 +195,10 @@
 					</includes>
 				</configuration>
 			</plugin>
+			<properties>
+   				 <failsafe.version>2.22.1</failsafe.version>
+			</properties>
+
 			<!-- Docker -->
 			<!--<plugin> -->
 			<!--<groupId>com.spotify</groupId> -->

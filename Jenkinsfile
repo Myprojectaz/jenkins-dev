@@ -59,15 +59,21 @@ pipeline {
 		}
 
 		stage('Push Docker Image') {
-			steps {
-				script {
-					docker.withRegistry('https://hub.docker.com', 'dockerhub') {
-						dockerImage.push();
-						dockerImage.push('latest');
-					}
-				}
-			}
-		}
+    		steps {
+        		script {
+        			withCredentials([usernamePassword(credentialsId: 'Yaswanth98', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                		def dockerHubCredentials = docker.registryCredentials('https://hub.docker.com')
+
+                // Login to Docker Hub using --password-stdin
+                		sh "echo ${dockerHubCredentials.secretPassword} | docker login --username ${dockerHubCredentials.secretUsername} --password-stdin"
+
+                // Push Docker image
+                		dockerImage.push()
+                		dockerImage.push('latest')
+            }
+        }
+    }
+}
 	}
 
 	post {

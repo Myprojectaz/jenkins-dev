@@ -61,15 +61,16 @@ pipeline {
 		stage('Push Docker Image') {
     		steps {
         		script {
-        			withCredentials([usernamePassword(credentialsId: 'yaswanth98', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                		def dockerHubCredentials = docker.registryCredentials('https://hub.docker.com')
-
+        			//withCredentials([usernamePassword(credentialsId: 'yaswanth98', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                		//def dockerHubCredentials = docker.registryCredentials('https://hub.docker.com')
+					docker.withRegistry('', 'dockerhub'){
                 // Login to Docker Hub using --password-stdin
-                		sh "echo ${dockerHubCredentials.secretPassword} | docker login --username ${dockerHubCredentials.secretUsername} --password-stdin"
+                		//sh "echo ${dockerHubCredentials.secretPassword} | docker login --username ${dockerHubCredentials.secretUsername} --password-stdin"
 
                 // Push Docker image
                 		dockerImage.push()
                 		dockerImage.push('latest')
+					}
             }
         }
     }

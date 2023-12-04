@@ -79,6 +79,8 @@ pipeline {
 }
 	}
 
+	*/
+
 	post {
 		always {
 			echo 'im awesome. i run always'
@@ -91,4 +93,4 @@ pipeline {
 		}
 	}
 
-	*/
+

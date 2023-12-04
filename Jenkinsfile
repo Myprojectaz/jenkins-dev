@@ -26,7 +26,7 @@ pipeline {
 		}
 	}
 }
-		/*
+		
 		stage('compile') {
 			steps {
 				sh "mvn clean compile"
@@ -43,7 +43,7 @@ pipeline {
 			}
 		}
 
-	
+	/*
 		stage('package') {
 			steps {
 				sh "mvn package -DskipTests"
@@ -90,5 +90,5 @@ pipeline {
 			echo 'i run when you fail'
 		}
 	}
-	
+
 	*/

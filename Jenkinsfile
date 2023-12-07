@@ -9,6 +9,7 @@ pipeline {
         DOCKER_PASSWORD = 'Yashu@1998'
     }
 
+
     stages {
         stage('checkout') {
             steps {
@@ -35,7 +36,10 @@ pipeline {
                 script {
                     def DOCKER_IMAGE = "yaswanth98/heyone:${BUILD_NUMBER}"
 
-                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                    // Log in to DockerHub securely using --password-stdin
+                    sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
+
+                    // Build and push Docker image
                     sh "docker build -t ${DOCKER_IMAGE} ."
                     sh "docker push ${DOCKER_IMAGE}"
                 }

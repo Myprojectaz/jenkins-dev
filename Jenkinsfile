@@ -56,6 +56,6 @@ pipeline {
 		failure {
 			echo 'i run when you fail'
 		}
-	}
-	}
+		}
 }
+		}

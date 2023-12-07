@@ -52,34 +52,21 @@ pipeline {
 			}
 		}
 
-
-		stage('Build Docker image') {
-			steps {
-				script {
-					dockerimage = docker.build("yaswanth98/regapp:${env.BUILD_TAG}")
-					
-				}
-			}
-		}
-
-		stage('Push Docker Image') {
-    		steps {
-        		script {
-        			//withCredentials([usernamePassword(credentialsId: 'yaswanth98', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                		//def dockerHubCredentials = docker.registryCredentials('https://hub.docker.com')
-					docker.withRegistry('', 'dockerhub'){
-                // Login to Docker Hub using --password-stdin
-                		//sh "echo ${dockerHubCredentials.secretPassword} | docker login --username ${dockerHubCredentials.secretUsername} --password-stdin"
-
-                // Push Docker image
-                		dockerImage.push()
-                		dockerImage.push('latest')
-					}
+    stage('Build and Push Docker Image') {
+      environment {
+        DOCKER_IMAGE = "yaswanth98/regapp:${BUILD_NUMBER}"
+        REGISTRY_CREDENTIALS = credentials('docker-cred')
+      }
+      steps {
+        script {
+            sh ' docker build -t ${DOCKER_IMAGE} .'
+            def dockerImage = docker.image("${DOCKER_IMAGE}")
+            docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
+                dockerImage.push()
             }
         }
+      }
     }
-
-
 
 	post {
 		always {

@@ -30,7 +30,7 @@ pipeline {
 
 		stage('Build and Push Docker Image') {
    			environment {
-        		DOCKER_IMAGE = "yaswanth98/regapp:${BUILD_NUMBER}"
+        		DOCKER_IMAGE = "yaswanth98/heyone:${BUILD_NUMBER}"
         		REGISTRY_CREDENTIALS = credentials('docker-cred')
     }
     steps {

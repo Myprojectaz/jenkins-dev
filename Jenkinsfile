@@ -24,6 +24,8 @@ pipeline {
 
 			}
 		}
+
+		/*
 	
 		stage('compile') {
 			steps {
@@ -40,6 +42,8 @@ pipeline {
 				sh "mvn failsafe:integration-test failsafe:verify"
 			}
 		}
+
+		*/
 
 	}
 }

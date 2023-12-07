@@ -5,7 +5,7 @@ pipeline {
         dockerHome = tool 'myDocker'
         mavenHome = tool 'myMaven'
         PATH = "$mavenHome/bin:$dockerHome/bin:$PATH"
-        DOCKER_USERNAME = 'Yaswanth98'
+        DOCKER_USERNAME = 'yaswanth98'
         DOCKER_PASSWORD = 'Yashu@1998'
     }
 

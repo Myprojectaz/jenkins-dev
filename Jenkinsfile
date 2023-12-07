@@ -29,20 +29,21 @@ pipeline {
 		}
 
 		stage('Build and Push Docker Image') {
-			environment {
-				DOCKER_IMAGE = "yaswanth98/regapp:${BUILD_NUMBER}"
-				REGISTRY_CREDENTIALS = credentials('docker-cred')
-			}
-			steps {
-				script {
-					sh 'docker build -t ${DOCKER_IMAGE} .'
-					def dockerImage = docker.image("${DOCKER_IMAGE}")
-					docker.withRegistry('https://hub.docker.com/', "docker-cred") {
-						dockerImage.push()
-					}
-				}
-			}
-		}
+   			environment {
+        		DOCKER_IMAGE = "yaswanth98/regapp:${BUILD_NUMBER}"
+        		REGISTRY_CREDENTIALS = credentials('docker-cred')
+    }
+    steps {
+        script {
+            sh 'docker build -t ${DOCKER_IMAGE} .'
+            def dockerImage = docker.image("${DOCKER_IMAGE}")
+            docker.withRegistry('https://registry.hub.docker.com/', "docker-cred") {
+                dockerImage.push()
+            }
+        }
+    }
+}
+
 	}
 
 	post {

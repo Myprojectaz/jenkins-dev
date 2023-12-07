@@ -5,6 +5,8 @@ pipeline {
         dockerHome = tool 'myDocker'
         mavenHome = tool 'myMaven'
         PATH = "$mavenHome/bin:$dockerHome/bin:$PATH"
+        DOCKER_USERNAME = 'Yaswanth98'
+        DOCKER_PASSWORD = 'Yashu@1998'
     }
 
     stages {
@@ -29,17 +31,13 @@ pipeline {
         }
 
         stage('Build and Push Docker Image') {
-            environment {
-                DOCKER_IMAGE = "yaswanth98/heyone:${BUILD_NUMBER}"
-                REGISTRY_CREDENTIALS = credentials('docker-cred')
-            }
             steps {
                 script {
-                    sh 'docker build -t ${DOCKER_IMAGE} .'
-                    def dockerImage = docker.image("${DOCKER_IMAGE}")
-                    docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
-                        dockerImage.push()
-                    }
+                    def DOCKER_IMAGE = "yaswanth98/heyone:${BUILD_NUMBER}"
+
+                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                    sh "docker build -t ${DOCKER_IMAGE} ."
+                    sh "docker push ${DOCKER_IMAGE}"
                 }
             }
         }

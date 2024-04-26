@@ -1,61 +1,17 @@
 pipeline {
-    agent any
-
+    agent {
+        node {
+            label 'maven'
+        }
+    }
     environment {
-        dockerHome = tool 'myDocker'
-        mavenHome = tool 'myMaven'
-        PATH = "$mavenHome/bin:$dockerHome/bin:$PATH"
-        DOCKER_USERNAME = 'yaswanth98'
-        DOCKER_PASSWORD = 'Yashu@1998'
+        PATH = "/opt/apache-maven-3.9.6/bin:$PATH"
     }
-
-
     stages {
-        stage('checkout') {
+        stage('build') {
             steps {
-                sh 'mvn --version'
-                sh 'docker version'
-                echo "build"
-                echo "PATH - PATH"
-                echo "BUILD_NUMBER - $env.BUILD_NUMBER"
-                echo "BUILD_ID - $env.BUILD_ID"
-                echo "JOB_NAME - $env.JOB_NAME"
-                echo "BUILD_TAG - $env.BUILD_TAG"
-                echo "BUILD_URL - $env.BUILD_URL"
+                sh 'mvn clean deploy -DskipTests'
             }
-        }
-
-        stage('package') {
-            steps {
-                sh "mvn package -DskipTests"
-            }
-        }
-
-        stage('Build and Push Docker Image') {
-            steps {
-                script {
-                    def DOCKER_IMAGE = "yaswanth98/heyone:${BUILD_NUMBER}"
-
-                    // Log in to DockerHub securely using --password-stdin
-                    sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
-
-                    // Build and push Docker image
-                    sh "docker build -t ${DOCKER_IMAGE} ."
-                    sh "docker push ${DOCKER_IMAGE}"
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            echo 'im awesome. i run always'
-        }
-        success {
-            echo 'i run when you are successful'
-        }
-        failure {
-            echo 'i run when you fail'
         }
     }
 }
